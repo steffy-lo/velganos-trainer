@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Div Follows Mouse Cursor</title>
+  <!-- Stylesheet -->
+  <link rel="stylesheet" href="style.css" />
+</head>
+<script>
+  function resizeCanvas() {
+    var canvs = document.getElementById("canvas");
+    canvs.width = window.innerWidth;
+    canvs.height = window.innerHeight;
+  }
+</script>
+
+<body onload="resizeCanvas();">
+  <div id="character"></div>
+  <div id="pizza">
+    <div id="slice1" class="top-left quadrant"></div>
+    <div id="slice2" class="top-right quadrant"></div>
+    <div id="slice3" class="bottom-left quadrant"></div>
+    <div id="slice4" class="bottom-right quadrant"></div>
+  </div>
+  <canvas id="canvas"></canvas>
+  <div id="boss"></div>
+  <div id="boss-aoe" class="grow"></div>
+
+  <!-- Script -->
+  <script type="text/javascript" src="character.js"></script>
+  <script type="text/javascript" src="script.js"></script>
+  <script type="text/javascript" src="orb.js"></script>
+
+</body>
+
+</html>
