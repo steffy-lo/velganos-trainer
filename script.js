@@ -1,5 +1,5 @@
 const bossAOE = document.getElementById("boss-aoe");
-const blueOrb = document.getElementById("canvas");
+const blueOrb = document.getElementById("blue-orb-canvas");
 const pizza = document.getElementById("pizza");
 
 bossAOE.style.display = "none";
@@ -18,24 +18,57 @@ function spawnBlueOrb() {
 }
 
 function startPizzaMech(x, y) {
-    const PIZZA_BOOM_TIME_INTERVAL = 300;
     pizza.style.display = "block";
     pizza.style.left = `${x - 120}px`;
     pizza.style.top = `${y - 105}px`;
+    animatePizzaBooms()
+}
+
+function animatePizzaBooms() {
+    const PIZZA_BOOM_TIME_INTERVAL = 300;
     const slice2 = document.getElementById("slice2");
     const slice4 = document.getElementById("slice4");
     const slice3 = document.getElementById("slice3");
     const slice1 = document.getElementById("slice1");
-    setTimeout(() => {
+
+    const SLICE_1_FAILURE_CHECK = () => {
         const character = document.getElementById("character");
+        return elementsOverlap(character, slice2) ||
+            elementsOverlap(character, slice3) ||
+            elementsOverlap(character, slice4) ||
+            !elementsOverlap(character, slice1);
+    }
+
+    const SLICE_2_FAILURE_CHECK = () => {
+        const character = document.getElementById("character");
+        return elementsOverlap(character, slice1) ||
+            elementsOverlap(character, slice3) ||
+            elementsOverlap(character, slice4) ||
+            !elementsOverlap(character, slice2);
+    }
+
+    const SLICE_3_FAILURE_CHECK = () => {
+        const character = document.getElementById("character");
+        return elementsOverlap(character, slice1) ||
+            elementsOverlap(character, slice2) ||
+            elementsOverlap(character, slice4) ||
+            !elementsOverlap(character, slice3);
+    }
+
+    const SLICE_4_FAILURE_CHECK = () => {
+        const character = document.getElementById("character");
+        return elementsOverlap(character, slice1) ||
+            elementsOverlap(character, slice2) ||
+            elementsOverlap(character, slice3) ||
+            !elementsOverlap(character, slice4);
+    }
+
+    let nextSlice;
+
+    setTimeout(() => {
         slice2.style.backgroundColor = "#fdf586";
         setTimeout(() => {
-            if (
-                elementsOverlap(character, slice1) ||
-                elementsOverlap(character, slice3) ||
-                elementsOverlap(character, slice4) ||
-                !elementsOverlap(character, slice2)
-            ) {
+            if (SLICE_2_FAILURE_CHECK()) {
                 gameOver();
             }
         }, PIZZA_BOOM_TIME_INTERVAL);
@@ -45,32 +78,28 @@ function startPizzaMech(x, y) {
         slice2.style.backgroundColor = "transparent";
     }, 2000)
     setTimeout(() => {
-        const character = document.getElementById("character");
-        slice4.style.backgroundColor = "#fdf586";
+        nextSlice = pizzaDirection === 1 ?
+            {
+                slice: slice4,
+                check: SLICE_4_FAILURE_CHECK
+            } : {
+                slice: slice1,
+                check: SLICE_1_FAILURE_CHECK
+            }
+        nextSlice.slice.style.backgroundColor = "#fdf586";
         setTimeout(() => {
-            if (
-                elementsOverlap(character, slice1) ||
-                elementsOverlap(character, slice2) ||
-                elementsOverlap(character, slice3) ||
-                !elementsOverlap(character, slice4)
-            ) {
+            if (nextSlice.check()) {
                 gameOver();
             }
         }, PIZZA_BOOM_TIME_INTERVAL);
     }, 2000)
     setTimeout(() => {
-        slice4.style.backgroundColor = "transparent";
+        nextSlice.slice.style.backgroundColor = "transparent";
     }, 3000)
     setTimeout(() => {
-        const character = document.getElementById("character");
         slice3.style.backgroundColor = "#fdf586";
         setTimeout(() => {
-            if (
-                elementsOverlap(character, slice1) ||
-                elementsOverlap(character, slice2) ||
-                elementsOverlap(character, slice4) ||
-                !elementsOverlap(character, slice3)
-            ) {
+            if (SLICE_3_FAILURE_CHECK()) {
                 gameOver();
             }
         }, PIZZA_BOOM_TIME_INTERVAL);
@@ -79,21 +108,23 @@ function startPizzaMech(x, y) {
         slice3.style.backgroundColor = "transparent";
     }, 4000)
     setTimeout(() => {
-        const character = document.getElementById("character");
-        slice1.style.backgroundColor = "#fdf586";
+        nextSlice = pizzaDirection === 1 ?
+            {
+                slice: slice1,
+                check: SLICE_1_FAILURE_CHECK
+            } : {
+                slice: slice4,
+                check: SLICE_4_FAILURE_CHECK
+            }
+        nextSlice.slice.style.backgroundColor = "#fdf586";
         setTimeout(() => {
-            if (
-                elementsOverlap(character, slice2) ||
-                elementsOverlap(character, slice3) ||
-                elementsOverlap(character, slice4) ||
-                !elementsOverlap(character, slice1)
-            ) {
+            if (nextSlice.check()) {
                 gameOver();
             }
         }, PIZZA_BOOM_TIME_INTERVAL);
     }, 4000)
     setTimeout(() => {
-        slice1.style.backgroundColor = "transparent";
+        nextSlice.slice.style.backgroundColor = "transparent";
     }, 5000)
 }
 

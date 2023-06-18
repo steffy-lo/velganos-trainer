@@ -1,9 +1,10 @@
-let canvas = document.getElementById("canvas");
+let canvas = document.getElementById("blue-orb-canvas");
 let characterEl = document.getElementById("character");
 let characterElBounds = characterEl.getBoundingClientRect();
 let ctx = canvas.getContext("2d");
 let canvasBounds = canvas.getBoundingClientRect();
 let characterPos = { x: characterElBounds.left, y: characterElBounds.top };
+let pizzaPos = { x: 0, y: 0 }
 
 canvas.addEventListener("contextmenu", (e) => {
     e.preventDefault();
@@ -29,7 +30,9 @@ class Orb {
         if (Math.abs(this.x - characterPos.x) < 40 && Math.abs(this.y - characterPos.y) < 40) {
             // Start pizza mech
             pizzaMech = true;
-            startPizzaMech(characterPos.x, characterPos.y);
+            pizzaPos.x = characterPos.x;
+            pizzaPos.y = characterPos.y;
+            startPizzaMech(pizzaPos.x, pizzaPos.y);
             // Orb touches player
             canvas.style.display = "none";
         }

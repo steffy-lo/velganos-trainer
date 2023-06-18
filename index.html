@@ -6,16 +6,17 @@
   <title>Velganos Trainer</title>
   <!-- Stylesheet -->
   <link rel="stylesheet" href="style.css" />
+  <script src="https://cdn.jsdelivr.net/npm/p5@1.2.0/lib/p5.js"></script>
 </head>
 <script>
-  function resizeCanvas() {
-    var canvs = document.getElementById("canvas");
+  function resizeMainCanvas() {
+    var canvs = document.getElementById("blue-orb-canvas");
     canvs.width = window.innerWidth;
     canvs.height = window.innerHeight;
   }
 </script>
 
-<body onload="resizeCanvas();">
+<body onload="resizeMainCanvas();">
   <div id="character"></div>
   <div id="pizza">
     <div id="slice1" class="top-left quadrant"></div>
@@ -23,11 +24,12 @@
     <div id="slice3" class="bottom-left quadrant"></div>
     <div id="slice4" class="bottom-right quadrant"></div>
   </div>
-  <canvas id="canvas"></canvas>
+  <canvas id="blue-orb-canvas"></canvas>
   <div id="boss"></div>
   <div id="boss-aoe" class="grow"></div>
 
   <!-- Script -->
+  <script type="text/javascript" src="spiral.js"></script>
   <script type="text/javascript" src="character.js"></script>
   <script type="text/javascript" src="script.js"></script>
   <script type="text/javascript" src="orb.js"></script>
