@@ -5,7 +5,8 @@ let ctx = canvas.getContext("2d");
 let canvasBounds = canvas.getBoundingClientRect();
 let characterPos = { x: characterElBounds.left, y: characterElBounds.top };
 
-canvas.addEventListener("mousedown", (e) => {
+canvas.addEventListener("contextmenu", (e) => {
+    e.preventDefault();
     characterPos.x = e.x - canvasBounds.x;
     characterPos.y = e.y - canvasBounds.y;
     target = new Target();
@@ -15,8 +16,8 @@ let pizzaMech = false;
 
 class Orb {
     constructor() {
-        this.x = 700;
-        this.y = 550;
+        this.x = window.innerWidth * 0.55;
+        this.y = window.innerHeight / 2;
         this.pt = { x: 0, y: 0 };
         this.color = "#0068f0";
         this.angle1 = 0;
@@ -74,8 +75,8 @@ class Orb {
                 this.y >= characterPos.y + 3 ||
                 this.y <= characterPos.y - 3
             ) {
-                this.x += vecX * 0.2; //multiple VecX by n to increase speed (vecX*2)
-                this.y += vecY * 0.2; //multiple VecY by n to increase speed (vecY*2)
+                this.x += vecX * 0.4; //multiple VecX by n to increase speed (vecX*2)
+                this.y += vecY * 0.4; //multiple VecY by n to increase speed (vecY*2)
             }
         }
     }
